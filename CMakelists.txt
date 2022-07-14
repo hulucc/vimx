@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.16)
+project(Cursor VERSION 0.1 DESCRIPTION "Cursor project" LANGUAGES C)
+
+file(GLOB_RECURSE SOURCES "src/*.c")
+add_library(cursor SHARED ${SOURCES})
+set_target_properties(cursor PROPERTIES PUBLIC_HEADER "include/cursor/cursor.h")
+target_include_directories(cursor
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+install(TARGETS cursor
+    RUNTIME DESTINATION lib
+    PUBLIC_HEADER DESTINATION include/cursor
+)
